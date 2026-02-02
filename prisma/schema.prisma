@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model User {
+    id       String  @id @default(uuid())
+    name     String?
+    email    String? @unique
+    login    String @unique
+    password String
+
+	group Group? @relation(fields: [groupId], references: [id])
+	groupId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Group {
+	id String @id @default(uuid())
+	title String
+	description String?
+	
+	users User[]
+	categories Category[]
+	expenses Expense[]
+
+	createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+	@@index([title])
+}
+
+model Category {
+	id String @id @default(uuid())
+	title String
+	description String?
+
+	expenses Expense[]
+
+	group Group @relation(fields: [groupId], references: [id])
+	groupId String
+
+	goals Goal[]
+
+	createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+	@@index([groupId, title])
+}
+
+enum PaymentMethod {
+	DEBIT
+	CREDIT
+	VOUCHER
+}
+
+model Expense {
+	id String @id @default(uuid())
+
+	title String
+	description String?
+	amount Decimal @db.Decimal(10, 2)
+	date DateTime
+
+	paymentMethod PaymentMethod
+
+	group Group @relation(fields: [groupId], references: [id])
+	groupId String
+
+	category Category @relation(fields: [categoryId], references: [id])
+	categoryId String
+
+	createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+	@@index([date, groupId])
+	@@index([categoryId, groupId])
+	@@index([paymentMethod, groupId])
+}
+
+model Goal {
+	id String @id @default(uuid())
+
+	date DateTime // Always the first date of Month
+	target Decimal @db.Decimal(10, 2)
+
+	category Category @relation(fields: [categoryId], references: [id])
+	categoryId String
+
+	createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+	@@unique([categoryId, date])
+}
