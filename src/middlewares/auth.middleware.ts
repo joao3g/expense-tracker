@@ -23,7 +23,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
             req.user = {
                 login: decoded.login,
                 name: decoded.name,
-                email: decoded.email
+                email: decoded.email,
+                group: decoded.group
             };
         }
 

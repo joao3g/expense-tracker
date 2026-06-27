@@ -29,6 +29,12 @@ const getByLogin = async (login: string) => {
     });
 }
 
+const countUsersByGroup = async (id: string) => {
+    return await prisma.user.count({
+        where: { groupId: id }
+    });
+}
+
 const find = async (skip: number = 0, take: number = 50) => {
     return await prisma.group.findMany({
         skip,
@@ -50,4 +56,4 @@ const remove = async (id: string) => {
     });
 }
 
-export default { create, getById, getByLogin, find, update, remove };
+export default { create, getById, getByLogin, countUsersByGroup, find, update, remove };

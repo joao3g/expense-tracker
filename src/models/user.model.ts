@@ -61,7 +61,8 @@ const getForAuthByLogin = async (login: string) => {
             login: true,
             name: true,
             email: true,
-            password: true
+            password: true,
+            group: true
         }
     });
 }
