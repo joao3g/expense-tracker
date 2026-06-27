@@ -82,6 +82,8 @@ model Expense {
 	category Category @relation(fields: [categoryId], references: [id])
 	categoryId String
 
+	isEssential Boolean
+
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
