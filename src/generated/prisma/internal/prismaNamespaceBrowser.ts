@@ -122,6 +122,7 @@ export const ExpenseScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   groupId: 'groupId',
   categoryId: 'categoryId',
+  isEssential: 'isEssential',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
