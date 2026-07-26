@@ -116,7 +116,7 @@ const update = async (data: z.infer<typeof expenseSchema.update>) => {
         transactionDate: data.date || currentExpense?.transactionDate,
         dueDate: data.date || currentExpense?.dueDate,
         group: { connect: { id: currentExpense?.groupId } },
-        category: { connect: { id: currentExpense?.categoryId } },
+        category: { connect: { id: data.category || currentExpense?.categoryId } },
     };
 
     if (data.date) {
